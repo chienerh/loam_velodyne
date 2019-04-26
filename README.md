@@ -26,7 +26,27 @@ has been used to extract the visual odometry / SLAM training set
 | 09 | 2011_09_30_drive_0033 | 000000 | 001590 | Residential | 6.2 GB |
 | 10 | 2011_09_30_drive_0034 | 000000 | 001200 | Residential | 4.8 GB |
 
-## How to use kitti rosbag in LOAM
+## How to run kitti rosbag with LOAM
+- rostopic of kitti point cloud is "/kitti/velo/pointcloud", so change "/multi_scan_points" to "/kitti/velo/pointcloud" in src/lib/MultiScanRegistration.cpp line 135.
+
+## How to save the odometry result into a rosbag
+- in src/launch/loam_velodyne.lauch, add 
+```
+  <!-- rosbag arg -->
+  <arg name="ros_bag_name" default="simulation_res"/>
+```
+```
+  <node pkg="rosbag" type="record" name="record" args="record -O /home/chienerh/catkin_ws/src/loam_velodyne/result/bag/$(arg ros_bag_name).bag
+                                                      /integrated_to_init
+								                                      /groundtruth_pose/pose"/>/
+```
+- to save odometry result, in TransformMaintence.cpp line 79, add
+```
+   for(int i = 3; i < 6; i++){
+      printf("%f\n", transformMapped()[i]);
+   }
+```
+
 
 ## KAIST Dataset
 - Use [File Player](https://github.com/irapkaist/file_player) to transform KAIST data into rosbag.

@@ -76,6 +76,10 @@ void TransformMaintenance::laserOdometryHandler(const nav_msgs::Odometry::ConstP
 
    transformAssociateToMap();
 
+   for(int i = 3; i < 6; i++){
+      printf("%f\n", transformMapped()[i]);
+   }
+
    geoQuat = tf::createQuaternionMsgFromRollPitchYaw(transformMapped()[2], -transformMapped()[0], -transformMapped()[1]);
 
    _laserOdometry2.header.stamp = laserOdometry->header.stamp;
