@@ -132,8 +132,13 @@ bool MultiScanRegistration::setupROS(ros::NodeHandle& node, ros::NodeHandle& pri
   }
 
   // subscribe to input cloud topic
+  // Kitti
   _subLaserCloud = node.subscribe<sensor_msgs::PointCloud2>
       ("/kitti/velo/pointcloud", 2, &MultiScanRegistration::handleCloudMessage, this);
+  // KAIST
+  _subLaserCloud = node.subscribe<sensor_msgs::PointCloud2>
+      ("/ns1/velodyne_points", 2, &MultiScanRegistration::handleCloudMessage, this);
+  // Velodyne
   // _subLaserCloud = node.subscribe<sensor_msgs::PointCloud2>
   //     ("/multi_scan_points", 2, &MultiScanRegistration::handleCloudMessage, this);
 
