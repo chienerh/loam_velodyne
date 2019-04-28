@@ -28,8 +28,12 @@ has been used to extract the visual odometry / SLAM training set
 
 ## How to run kitti rosbag with LOAM
 - rostopic of kitti point cloud is "/kitti/velo/pointcloud", so change "/multi_scan_points" to "/kitti/velo/pointcloud" in src/lib/MultiScanRegistration.cpp line 135.
+```
+roslaunch loam_velodyne loam_velodyne.launch
+rosbag play PATH_TO_BAG.bag 
+```
 
-## How to save the odometry result into a rosbag
+## How to save the odometry result
 - in src/launch/loam_velodyne.lauch, add 
 ```
   <!-- rosbag arg -->
@@ -40,12 +44,18 @@ has been used to extract the visual odometry / SLAM training set
                                                       /integrated_to_init
 								                                      /groundtruth_pose/pose"/>/
 ```
-- to save odometry result, in TransformMaintence.cpp line 79, add
+- to save odometry result, in src/lib/TransformMaintence.cpp line 79, add
 ```
    for(int i = 3; i < 6; i++){
       printf("%f\n", transformMapped()[i]);
    }
+   printf("%f, %f, %f\n", transformMapped()[3], transformMapped()[4], transformMapped()[5]);
 ```
+Then run launch file with this command
+```
+roslaunch loam_velodyne loam_velodyne.launch > src/result/loam_velodyne/result.txt
+```
+
 
 
 ## KAIST Dataset

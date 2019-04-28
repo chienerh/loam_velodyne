@@ -76,9 +76,7 @@ void TransformMaintenance::laserOdometryHandler(const nav_msgs::Odometry::ConstP
 
    transformAssociateToMap();
 
-   for(int i = 3; i < 6; i++){
-      printf("%f\n", transformMapped()[i]);
-   }
+   printf("%f, %f, %f\n", transformMapped()[3], transformMapped()[4], transformMapped()[5]);
 
    geoQuat = tf::createQuaternionMsgFromRollPitchYaw(transformMapped()[2], -transformMapped()[0], -transformMapped()[1]);
 
