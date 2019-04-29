@@ -40,25 +40,23 @@ rosbag play PATH_TO_BAG.bag
   <arg name="ros_bag_name" default="simulation_res"/>
 ```
 ```
-  <node pkg="rosbag" type="record" name="record" args="record -O /home/chienerh/catkin_ws/src/loam_velodyne/result/bag/$(arg ros_bag_name).bag
-                                                      /integrated_to_init
-								                                      /groundtruth_pose/pose"/>/
+  <node pkg="rosbag" type="record" name="record" args="record -O /home/USER_NAME/catkin_ws/src/loam_velodyne/result/bag/$(arg ros_bag_name).bag
+                                                	/integrated_to_init
+							/groundtruth_pose/pose"/>/
 ```
 - to save odometry result, in src/lib/TransformMaintence.cpp line 79, add
 ```
-   for(int i = 3; i < 6; i++){
-      printf("%f\n", transformMapped()[i]);
-   }
    printf("%f, %f, %f\n", transformMapped()[3], transformMapped()[4], transformMapped()[5]);
 ```
 Then run launch file with this command
 ```
-roslaunch loam_velodyne loam_velodyne.launch > src/result/loam_velodyne/result.txt
+roslaunch loam_velodyne loam_velodyne.launch > src/loam_velodyne/result/result.csv
 ```
 
 
 
 ## KAIST Dataset
-- Use [File Player](https://github.com/irapkaist/file_player) to transform KAIST data into rosbag.
+- Use [File Player](https://github.com/irapkaist/file_player) to publish KAIST data into ros message.
+- rostopic of kitti point cloud is "/ns1/velodyne_points", so change "/multi_scan_points" to "/ns1/velodyne_points" in src/lib/MultiScanRegistration.cpp line 135.
 
 
