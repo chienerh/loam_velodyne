@@ -3,13 +3,14 @@
   <arg name="rviz" default="true" />
   <arg name="scanPeriod" default="0.1" />
   <!-- rosbag arg -->
-  <arg name="ros_bag_name" default="simulation_res"/>
+  <!-- <arg name="ros_bag_name" default="simulation_res"/> -->
   
   <node pkg="loam_velodyne" type="multiScanRegistration" name="multiScanRegistration" output="screen">
-    <param name="lidar" value="VLP-16" /> <!-- options: VLP-16  HDL-32  HDL-64E -->
+    <param name="lidar" value="HDL-64E" /> <!-- options: VLP-16  HDL-32  HDL-64E -->
     <param name="scanPeriod" value="$(arg scanPeriod)" />
 
-    <remap from="/multi_scan_points" to="/velodyne_points" />
+    <remap from="/multi_scan_points" to="/kitti/velo/pointcloud" />
+    <!--"/velodyne_points"-->
   </node>
 
   <node pkg="loam_velodyne" type="laserOdometry" name="laserOdometry" output="screen" respawn="true">
@@ -28,8 +29,8 @@
   </group>
 
   <!--- Please change ~/catkin_ws/src/loam_velodyne/bag/ to the path you want to save the result -->  
-  <node pkg="rosbag" type="record" name="record" args="record -O /home/chienerh/catkin_ws/src/loam_velodyne/result/bag/$(arg ros_bag_name).bag
+  <!-- <node pkg="rosbag" type="record" name="record" args="record -O /home/chienerh/catkin_ws/src/loam_velodyne/result/bag/$(arg ros_bag_name).bag
                                                       /integrated_to_init
-								                                      /groundtruth_pose/pose"/>/
+								                                      /groundtruth_pose/pose"/>/ -->
 
 </launch>
