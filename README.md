@@ -5,7 +5,6 @@ This repository is fork from [laboshinl's version of LOAM](https://github.com/la
 ## How to download and transform kitti to rosbag
 - Download raw sequences **synced+rectified data** and **calibration** data from [The KITTI Vision Benchmark Suite](http://www.cvlibs.net/datasets/kitti/raw_data.php).
 - [kitti2bag](https://github.com/tomas789/kitti2bag) is used to transform kitti raw data to rosbag.
-- 
 
 The sequences that provide ground truth are shown in the below table. The [odometry eval kit](http://kitti.is.tue.mpg.de/kitti/devkit_odometry.zip) includes description.
 
@@ -16,7 +15,7 @@ has been used to extract the visual odometry / SLAM training set
 | --- | --- | --- | --- | --- | --- |
 | 00 | 2011_10_03_drive_0027 | 000000 | 004540 | Residential | 17.6 GB |
 | 01 | 2011_10_03_drive_0042 | 000000 | 001100 | Road | 4.5 GB |
-| 02 | 2011_10_03_drive_0034 | 000000 | 004660 |
+| 02 | 2011_10_03_drive_0034 | 000000 | 004660 | Residential | 18.0 GB |
 | 03 | 2011_09_26_drive_0067 | 000000 | 000800 | 
 | 04 | 2011_09_30_drive_0016 | 000000 | 000270 | Road | 1.1 GB |
 | 05 | 2011_09_30_drive_0018 | 000000 | 002760 | Residential | 10.7 GB |
