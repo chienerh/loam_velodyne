@@ -9,8 +9,8 @@
     <param name="lidar" value="HDL-64E" /> <!-- options: VLP-16  HDL-32  HDL-64E -->
     <param name="scanPeriod" value="$(arg scanPeriod)" />
 
-    <remap from="/multi_scan_points" to="/kitti/velo/pointcloud" />
-    <!--"/velodyne_points"-->
+    <remap from="/multi_scan_points" to="/ns1/velodyne_points" />
+    <!--options: "/velodyne_points"  "/kitti/velo/pointcloud"  "/ns1/velodyne_points"-->
   </node>
 
   <node pkg="loam_velodyne" type="laserOdometry" name="laserOdometry" output="screen" respawn="true">
