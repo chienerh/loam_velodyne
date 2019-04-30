@@ -262,6 +262,7 @@ bool LaserMapping::hasNewData()
 
 void LaserMapping::process()
 {
+   
    if (!hasNewData())// waiting for new data to arrive...
       return;
 
@@ -270,7 +271,10 @@ void LaserMapping::process()
    if (!BasicLaserMapping::process(fromROSTime(_timeLaserOdometry)))
       return;
 
+   // std::cout << "LaserMapping time, " << ros::Time::now() << ", ";
+
    publishResult();
+   // std::cout << ros::Time::now() << std::endl;
 }
 
 void LaserMapping::publishResult()

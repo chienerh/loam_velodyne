@@ -35,6 +35,9 @@
 #include "loam_velodyne/LaserOdometry.h"
 #include "loam_velodyne/common.h"
 #include "math_utils.h"
+#include <ctime>
+#include <iostream>
+using namespace std;
 
 namespace loam
 {
@@ -288,9 +291,15 @@ namespace loam
     if (!hasNewData())
       return;// waiting for new data to arrive...
 
+    // std::cout << "LaserOdometry time, " << ros::Time::now() << ", ";
+
     reset();// reset flags, etc.
+
     BasicLaserOdometry::process();
+
     publishResult();
+    
+    // std::cout << ros::Time::now() << std::endl;
   }
 
 

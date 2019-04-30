@@ -35,6 +35,9 @@
 
 #include <pcl_conversions/pcl_conversions.h>
 
+#include <ctime>
+#include <iostream>
+
 
 namespace loam {
 
@@ -133,6 +136,7 @@ bool MultiScanRegistration::setupROS(ros::NodeHandle& node, ros::NodeHandle& pri
 
   // subscribe to input cloud topic
   // Kitti
+  // std::cout << "start time: " << ros::Time::now() << std::endl;
   _subLaserCloud = node.subscribe<sensor_msgs::PointCloud2>
       ("/multi_scan_points", 2, &MultiScanRegistration::handleCloudMessage, this);
 
@@ -142,23 +146,29 @@ bool MultiScanRegistration::setupROS(ros::NodeHandle& node, ros::NodeHandle& pri
 
 void MultiScanRegistration::handleCloudMessage(const sensor_msgs::PointCloud2ConstPtr &laserCloudMsg)
 {
+
   if (_systemDelay > 0) 
   {
     --_systemDelay;
     return;
   }
-
+  
   // fetch new input cloud
+  
+
   pcl::PointCloud<pcl::PointXYZ> laserCloudIn;
   pcl::fromROSMsg(*laserCloudMsg, laserCloudIn);
 
   process(laserCloudIn, fromROSTime(laserCloudMsg->header.stamp));
+  
 }
 
 
 
 void MultiScanRegistration::process(const pcl::PointCloud<pcl::PointXYZ>& laserCloudIn, const Time& scanTime)
 {
+  // std::cout << "MultiScanRegistration time, " << ros::Time::now() << ", ";
+
   size_t cloudSize = laserCloudIn.size();
 
   // determine scan start and end orientations
@@ -234,7 +244,9 @@ void MultiScanRegistration::process(const pcl::PointCloud<pcl::PointXYZ>& laserC
   }
 
   processScanlines(scanTime, _laserCloudScans);
+
   publishResult();
+  // std::cout << ros::Time::now() << std::endl;
 }
 
 } // end namespace loam

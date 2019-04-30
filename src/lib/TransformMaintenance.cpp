@@ -31,6 +31,8 @@
 //     Robotics: Science and Systems Conference (RSS). Berkeley, CA, July 2014.
 
 #include "loam_velodyne/TransformMaintenance.h"
+#include <ctime>
+#include <iostream>
 
 namespace loam
 {
@@ -65,6 +67,7 @@ bool TransformMaintenance::setup(ros::NodeHandle &node, ros::NodeHandle &private
 
 void TransformMaintenance::laserOdometryHandler(const nav_msgs::Odometry::ConstPtr& laserOdometry)
 {
+   // std::cout << "laserOdometryHandler time, " << ros::Time::now() << ", ";
    double roll, pitch, yaw;
    geometry_msgs::Quaternion geoQuat = laserOdometry->pose.pose.orientation;
    tf::Matrix3x3(tf::Quaternion(geoQuat.z, -geoQuat.x, -geoQuat.y, geoQuat.w)).getRPY(roll, pitch, yaw);
@@ -74,9 +77,8 @@ void TransformMaintenance::laserOdometryHandler(const nav_msgs::Odometry::ConstP
       laserOdometry->pose.pose.position.y,
       laserOdometry->pose.pose.position.z);
 
-   transformAssociateToMap();
 
-   printf("%f, %f, %f\n", transformMapped()[3], transformMapped()[4], transformMapped()[5]);
+   transformAssociateToMap();
 
    geoQuat = tf::createQuaternionMsgFromRollPitchYaw(transformMapped()[2], -transformMapped()[0], -transformMapped()[1]);
 
@@ -94,6 +96,10 @@ void TransformMaintenance::laserOdometryHandler(const nav_msgs::Odometry::ConstP
    _laserOdometryTrans2.setRotation(tf::Quaternion(-geoQuat.y, -geoQuat.z, geoQuat.x, geoQuat.w));
    _laserOdometryTrans2.setOrigin(tf::Vector3(transformMapped()[3], transformMapped()[4], transformMapped()[5]));
    _tfBroadcaster2.sendTransform(_laserOdometryTrans2);
+
+   // std::cout << ros::Time::now() << std::endl;
+   std::cout << ros::Time::now() << ", " << transformMapped()[3] << ", " << transformMapped()[4] << ", " << transformMapped()[5] << std::endl;
+
 }
 
 void TransformMaintenance::odomAftMappedHandler(const nav_msgs::Odometry::ConstPtr& odomAftMapped)
